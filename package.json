@@ -5,7 +5,9 @@
   "description": "Simple example projects which are used for communication of Web3 integration library usage.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:WalletConnection": "npm start --workspace=scenarios/WalletConnection",
+    "build:WalletConnection": "npm run build --workspace=scenarios/WalletConnection"
   },
   "repository": {
     "type": "git",
@@ -28,8 +30,12 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/node": "^22.15.3",
+    "cpx": "^1.5.0",
+    "esbuild": "^0.25.3",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "undici-types": "^7.8.0"
   }
 }
