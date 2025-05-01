@@ -1,0 +1,33 @@
+{
+  "name": "ludexexamples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple example projects which are used for communication of Web3 integration library usage.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LudexCS/LudexExamples.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LudexCS/LudexExamples/issues"
+  },
+  "homepage": "https://github.com/LudexCS/LudexExamples#readme",
+  "workspaces": [
+    "packages/*",
+    "scenarios/*"
+  ],
+  "dependencies": {
+    "ethers": "^6.13.7",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "typescript": "^5.8.3"
+  }
+}

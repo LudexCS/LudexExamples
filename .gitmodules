@@ -1,0 +1,3 @@
+[submodule "packages/LudexWeb3Integration"]
+	path = packages/LudexWeb3Integration
+	url = https://github.com/LudexCS/LudexWeb3Integration.git
