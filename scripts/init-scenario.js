@@ -14,10 +14,11 @@ if (!scenarioName) {
 
 const baseDir = path.resolve(__dirname, '..', 'scenarios', scenarioName);
 const srcDir = path.join(baseDir, 'src');
+const publicDir = path.join(srcDir, 'public');
 
 console.log(`📦 Creating scenario: ${scenarioName}`);
 
-fs.mkdirSync(srcDir, { recursive: true });
+fs.mkdirSync(publicDir, { recursive: true });
 process.chdir(baseDir);
 
 // Step 1: npm init
@@ -40,14 +41,17 @@ tsconfig = tsconfig
 fs.writeFileSync(tsconfigPath, tsconfig);
 
 // Step 4: create src/index.ts
-const indexCode = `
+const indexTs = `
 import express from 'express';
+import path from 'path';
 
 const app = express();
 const port = 3000;
 
-app.get('/', (_req, res) => {
-  res.send('Hello from ${scenarioName}!');
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/api/trigger', (_req, res) => {
+  res.json({ message: 'Triggered from backend!' });
 });
 
 app.listen(port, () => {
@@ -55,13 +59,43 @@ app.listen(port, () => {
 });
 `.trimStart();
 
-fs.writeFileSync(path.join(srcDir, 'index.ts'), indexCode);
+fs.writeFileSync(path.join(srcDir, 'index.ts'), indexTs);
 
-// Step 5: add npm scripts
+// Step 5: create public/index.html
+const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scenario: ${scenarioName}</title>
+</head>
+<body>
+  <h1>Scenario: ${scenarioName}</h1>
+  <button id="trigger">Run Scenario</button>
+  <pre id="result"></pre>
+
+  <script>
+    document.getElementById('trigger').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/trigger');
+        const data = await res.json();
+        document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('result').textContent = '⚠️ Error: ' + err;
+      }
+    });
+  </script>
+</body>
+</html>
+`.trimStart();
+
+fs.writeFileSync(path.join(publicDir, 'index.html'), html);
+
+// Step 6: add npm scripts
 execSync('npx npm pkg set scripts.start="ts-node src/index.ts"', { stdio: 'ignore' });
 execSync('npx npm pkg set scripts.dev="nodemon src/index.ts"', { stdio: 'ignore' });
 
-// Step 6: add ludex dependency (local workspace)
+// Step 7: add ludex dependency (local path)
 execSync('npx npm pkg set dependencies.ludex="file:../../packages/LudexWeb3Integration"', {
   stdio: 'ignore'
 });
