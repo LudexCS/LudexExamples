@@ -1,0 +1,23 @@
+{
+  "name": "walletconnection",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && npm run build-frontend",
+    "build-frontend": "esbuild src/frontend/frontend.ts --bundle --outfile=dist/public/js/frontend.js --format=iife",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ludex": "file:../../packages/LudexWeb3Integration"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "esbuild": "^0.25.3",
+    "undici-types": "^7.8.0"
+  }
+}
