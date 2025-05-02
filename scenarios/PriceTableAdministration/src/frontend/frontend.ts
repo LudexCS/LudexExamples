@@ -2,7 +2,7 @@ import * as ludex from "ludex";
 
 type ContractInfo = {
   address: string;
-  abi: any; // JSON ABI (정확히는 `Abi` 타입이나 일반적으로 any 사용)
+  abi: any;
 };
 
 type ContractsMap = Record<string, ContractInfo>;
@@ -19,175 +19,114 @@ const chainConfig: ludex.configs.ChainConfig = {
 };
 
 let ludexConfig: ludex.configs.LudexConfig;
-let priceTable: ludex.Access.Admin.IPriceTable;
 let contractsMap: ContractsMap;
 
 window.onload = async () => {
   const res = await fetch("http://localhost:3000/contracts");
   contractsMap = await res.json();
 
-  const config: ludex.configs.LudexConfig = {
+  ludexConfig = {
     storeAddress: contractsMap["Store"].address,
     priceTableAddress: contractsMap["PriceTable"].address,
     ledgerAddress: contractsMap["Ledger"].address,
     sellerRegistryAddress: contractsMap["SellerRegistry"].address,
     itemRegistryAddress: contractsMap["ItemRegistry"].address
-  }
+  };
 
-  document.getElementById("tokenAddress")!.textContent = (
-    contractsMap["MockUSDC"].address);
-
-  console.log("ludex config");
-  ludexConfig = config;
+  document.getElementById("tokenAddress")!.textContent = contractsMap["MockUSDC"].address;
+  console.log("ludex config loaded");
 };
 
-async function getPriceTable(): Promise<ludex.Access.Admin.IPriceTable>
-{
-  const connection = await ludex.BrowserWalletConnection.create(chainConfig);
-
-  const facade = 
-    ludex
-    .facade
-    .createAdminFacade(chainConfig, ludexConfig, await connection.getSigner())
-
-  const priceTable = facade.adminAccessPriceTable();
-
-  return priceTable;
+function getInputValue(id: string): string {
+  return (document.getElementById(id) as HTMLInputElement)?.value ?? "";
 }
 
-// Add Payment Channel
+function getBigIntValue(id: string): bigint {
+  return BigInt(getInputValue(id) || "0");
+}
+
+function validateTokenAddress(tokenAddress: string): boolean {
+  if (!tokenAddress) {
+    alert("No token address");
+    return false;
+  }
+  return true;
+}
+
+function validateDecimals(decimals: bigint): boolean {
+  if (decimals < 4n) {
+    alert("Precision too low");
+    return false;
+  }
+  if (decimals > 32n) {
+    alert("Precision too big");
+    return false;
+  }
+  return true;
+}
+
+async function getPriceTable(): Promise<ludex.Access.Admin.IPriceTable> {
+  const connection = await ludex.BrowserWalletConnection.create(chainConfig);
+  const facade = ludex.facade.createAdminFacade(chainConfig, ludexConfig, await connection.getSigner());
+  return facade.adminAccessPriceTable();
+}
+
+// Add a new payment channel with exchange rate and decimals
 document.getElementById("add")?.addEventListener("click", async () => {
   const priceTable = await getPriceTable();
+  const tokenAddress = getInputValue("addPaymentChannel");
+  if (!validateTokenAddress(tokenAddress)) return;
 
-  const tokenAddress = 
-    (document.getElementById("addPaymentChannel") as HTMLInputElement)?.value;
-
-  if (!tokenAddress)
-  {
-    alert("No token address");
-    return;
-  }
-
-  console.log(`tokenAddress: ${tokenAddress}`);
-
-  let usdToToken = 
-    BigInt(
-      (document.getElementById("addInputRate") as HTMLInputElement)
-      ?.value || "0");
-
-  if (usdToToken <= 0n)  
-  {
+  const usdToToken = getBigIntValue("addInputRate");
+  if (usdToToken <= 0n) {
     alert("Cannot add token which has no value");
     return;
   }
 
-  const decimals =
-    BigInt(
-      (document.getElementById("addInputDecimals") as HTMLInputElement)
-      ?.value || "0");
-
-  if (decimals < 4)
-  {
-    alert("Precision too low");
-    return;
-  }
-
-  if (decimals > 32)
-  {
-    alert("Precision too big");
-    return
-  }
+  const decimals = getBigIntValue("addInputDecimals");
+  if (!validateDecimals(decimals)) return;
 
   await priceTable.addPaymentChannel(
-    ludex.Address.create(tokenAddress), 
-    usdToToken * (10n ** decimals)); 
+    ludex.Address.create(tokenAddress),
+    usdToToken * 10n ** decimals
+  );
 });
 
-// Remove Payment Channel
+// Remove a payment channel by token address
 document.getElementById("remove")?.addEventListener("click", async () => {
   const priceTable = await getPriceTable();
+  const tokenAddress = getInputValue("removePaymentChannel");
+  if (!validateTokenAddress(tokenAddress)) return;
 
-  const tokenAddress = 
-    (document.getElementById("removePaymentChannel") as HTMLInputElement)?.value;
-
-  if (!tokenAddress)
-  {
-    alert("No token address");
-    return;
-  }
-
-  console.log(`tokenAddress: ${tokenAddress}`);
-
-  const isSucess = 
-    await priceTable.removePaymentChannel(ludex.Address.create(tokenAddress));
-
-  if (isSucess)
-  {
-    console.log("Successfully removed token: " + tokenAddress);
-  }
-  else
-  {
-    console.log("Could not remove token: " + tokenAddress);
-  }
+  const isSuccess = await priceTable.removePaymentChannel(ludex.Address.create(tokenAddress));
+  console.log(isSuccess
+    ? `Successfully removed token: ${tokenAddress}`
+    : `Could not remove token: ${tokenAddress}`);
 });
 
-// Get Exchange Rate 
+// Retrieve the current exchange rate for a given token address
 document.getElementById("get")?.addEventListener("click", async () => {
   const priceTable = await getPriceTable();
+  const tokenAddress = getInputValue("getExchangeRateOf");
+  if (!validateTokenAddress(tokenAddress)) return;
 
-  const tokenAddress = 
-    (document.getElementById("getExchangeRateOf") as HTMLInputElement)?.value;
-  
-  if (!tokenAddress)
-  {
-    alert("No token address");
-    return;
-  }
-
-  console.log("tokenAddress: " + tokenAddress);
-
-  const usdToToken = 
-    await priceTable.getExchangeRateOf(ludex.Address.create(tokenAddress));
-
+  const usdToToken = await priceTable.getExchangeRateOf(ludex.Address.create(tokenAddress));
   document.getElementById("rate")!.innerText = usdToToken.toString();
 });
 
-document.getElementById("change")?.addEventListener("click", async() => {
+// Change the exchange rate for an existing token
+document.getElementById("change")?.addEventListener("click", async () => {
   const priceTable = await getPriceTable();
-  const tokenAddress =
-   (document.getElementById("changeExchangeRate") as HTMLInputElement)?.value
+  const tokenAddress = getInputValue("changeExchangeRate");
+  if (!validateTokenAddress(tokenAddress)) return;
 
-  if (!tokenAddress)
-  {
-    alert("No token address");
-    return;
-  }
+  const usdToToken = getBigIntValue("changeInputRate");
+  const decimals = getBigIntValue("changeInputDecimals");
+  if (!validateDecimals(decimals)) return;
 
-  let usdToToken = 
-    BigInt(
-      (document.getElementById("changeInputRate") as HTMLInputElement)
-      ?.value || "0");
-
-  const decimals =
-    BigInt(
-      (document.getElementById("changeInputDecimals") as HTMLInputElement)
-      ?.value || "0");
-
-  if (decimals < 4)
-  {
-    alert("Precision too low");
-    return;
-  }
-
-  if (decimals > 32)
-  {
-    alert("Precision too big");
-    return
-  }
-
-  const prevUSDToToken = 
-    await priceTable.changeExchangeRate(
-      ludex.Address.create(tokenAddress),
-      usdToToken * 10n ** decimals);
+  const prevUSDToToken = await priceTable.changeExchangeRate(
+    ludex.Address.create(tokenAddress),
+    usdToToken * 10n ** decimals
+  );
   document.getElementById("prev")!.innerText = prevUSDToToken.toString();
 });
