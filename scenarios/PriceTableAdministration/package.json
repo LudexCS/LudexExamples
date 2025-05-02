@@ -1,0 +1,27 @@
+{
+  "name": "pricetableadministration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && npm run copy-public && npm run build-frontend && npm run clean-frontend",
+    "copy-public": "cpx src/frontend/index.html dist/public",
+    "build-frontend": "esbuild src/frontend/frontend.ts --bundle --outfile=dist/public/js/frontend.js --format=iife",
+    "clean-frontend": "rimraf dist/frontend",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ludex": "file:../../packages/LudexWeb3Integration"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "cpx": "^1.5.0",
+    "esbuild": "^0.25.3",
+    "rimraf": "^6.0.1",
+    "undici-types": "^7.8.0"
+  }
+}

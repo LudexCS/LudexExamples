@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:WalletConnection": "npm start --workspace=scenarios/WalletConnection",
-    "build:WalletConnection": "npm run build --workspace=scenarios/WalletConnection"
+    "build:WalletConnection": "npm run build --workspace=scenarios/WalletConnection",
+    "start:PriceTableAdministration": "npm start --workspace=scenarios/PriceTableAdministration",
+    "build:PriceTableAdministration": "npm run build --workspace=scenarios/PriceTableAdministration"
   },
   "repository": {
     "type": "git",
