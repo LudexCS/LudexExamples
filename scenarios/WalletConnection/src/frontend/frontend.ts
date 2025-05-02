@@ -17,5 +17,5 @@ window.onload = async() => {
   connection
   .getSigner()
   .then(signer => signer.getAddress())
-  .then(address => console.log(address));
+  .then(address => {alert(address); console.log(address);});
 };
