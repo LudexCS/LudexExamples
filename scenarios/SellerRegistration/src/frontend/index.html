@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scenario: SellerRegsitration</title>
+</head>
+<body>
+  <h1>Scenario: SellerRegsitration</h1>
+
+  <div>
+    <p>주의: 토큰 컨트랙트의 주소를 백엔드로부터 받아오는 건 백엔드가 이를 실제로 지원할 때의 일입니다. 여기서는 테스트 시나리오이므로, 그냥 된다고 가정합니다</p>
+    <p id="tokenAddressDisplay"></p><br>
+  </div>
+
+  <div>
+    <input type="text" id="tokenAddress">
+    <button id="register">Register</button>
+    <pre id="registerResult"></pre>
+  </div>
+
+  <div>
+    <input type="text" id="sellerAddress">
+    <button id="isActiveSeller">Is Active</button>
+    <pre id="isActiveSellerResult"></pre>
+  </div>
+
+  <script src="js/frontend.js"></script>
+</body>
+</html>
