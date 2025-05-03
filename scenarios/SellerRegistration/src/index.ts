@@ -56,54 +56,16 @@ async function init()
 
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-  const sellerRegistry = 
-    new ethers.Contract(
-      contracts["SellerRegistry"].address,
-      contracts["SellerRegistry"].abi,
-      wallet);
-  console.log(
-    await sellerRegistry.isTrustedForwarder(contracts["ERC2771Forwarder"].address));
-
   const relayer = 
     ludex.relay.createLudexRelayMaster(
       ludexConfig,
       ludex.Address.create(contracts["ERC2771Forwarder"].address),
       wallet);
-    
 
   app.post("/api/relay", async (req: Request, res: Response) => {
     const relayRequest = ludex.relay.deserializeRelayRequest(req.body);
-
-    console.log("Deserialized: ")
-    console.log(`\tfrom: ${relayRequest.request.from}`)
-    console.log(`\tto: ${relayRequest.request.to}`)
-    console.log(`\tvalue: 
-        ${relayRequest.request.value}
-        (${typeof relayRequest.request.value})
-        `)
-    console.log(`\tgas: 
-        ${relayRequest.request.gas}
-        (${typeof relayRequest.request.gas})
-        `)
-    console.log(`\tnonce: 
-        ${relayRequest.request.nonce}
-        (${typeof relayRequest.request.nonce})
-        `)
-    console.log(`\tdata: ${relayRequest.request.data}`)
-    console.log(`\tsignature: ${relayRequest.signature}`)
-    console.log(`\tevent: ${relayRequest.responseEvent}`)
-
-    const sellerRegistryInterface = 
-      new ethers.Interface(contracts["SellerRegistry"].abi);
-
-    const decoded = 
-      sellerRegistryInterface.decodeFunctionData(
-        "registerSeller",
-        relayRequest.request.data);
-    console.log(decoded);
-
-    console.log(`from: ${relayRequest.request.from}`);
-    const result = await
+    
+    await
       relayer.acceptRequest(
         relayRequest,
         (args) => res.json({ args }),
