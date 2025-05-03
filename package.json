@@ -9,7 +9,9 @@
     "start:WalletConnection": "npm start --workspace=scenarios/WalletConnection",
     "build:WalletConnection": "npm run build --workspace=scenarios/WalletConnection",
     "start:PriceTableAdministration": "npm start --workspace=scenarios/PriceTableAdministration",
-    "build:PriceTableAdministration": "npm run build --workspace=scenarios/PriceTableAdministration"
+    "build:PriceTableAdministration": "npm run build --workspace=scenarios/PriceTableAdministration",
+    "start:SellerRegistration": "npm start --workspace=scenarios/SellerRegistration",
+    "build:SellerRegistration": "npm run build --workspace=scenarios/SellerRegistration"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "scenarios/*"
   ],
   "dependencies": {
+    "dotenv": "^16.5.0",
     "ethers": "^6.13.7",
     "express": "^5.1.0"
   },
