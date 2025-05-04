@@ -1,0 +1,21 @@
+{
+  "name": "itemregistration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && npm run copy-public && npm run build-frontend && npm run clean-frontend",
+    "copy-public": "cpx src/frontend/index.html dist/public",
+    "build-frontend": "esbuild src/frontend/frontend.ts --bundle --outfile=dist/public/js/frontend.js --format=iife",
+    "clean-frontend": "rimraf dist/frontend",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "fnv1a": "^1.1.1",
+    "ludex": "file:../../packages/LudexWeb3Integration"
+  }
+}
