@@ -13,7 +13,9 @@
     "start:SellerRegistration": "npm start --workspace=scenarios/SellerRegistration",
     "build:SellerRegistration": "npm run build --workspace=scenarios/SellerRegistration",
     "start:ItemRegistration": "npm start --workspace=scenarios/ItemRegistration",
-    "build:ItemRegistration": "npm run build --workspace=scenarios/ItemRegistration"
+    "build:ItemRegistration": "npm run build --workspace=scenarios/ItemRegistration",
+    "start:PriceTableDisplay": "npm start --workspace=scenarios/PriceTableDisplay",
+    "build:PriceTableDisplay": "npm run build --workspace=scenarios/PriceTableDisplay"
   },
   "repository": {
     "type": "git",
