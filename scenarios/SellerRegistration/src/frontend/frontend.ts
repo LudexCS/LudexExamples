@@ -81,7 +81,7 @@ document.getElementById("register")?.addEventListener("click", async () => {
     return;
   }
 
-  const isSucess: boolean = relayRequest.onResponse(...args);
+  const isSucess: boolean = relayRequest.onResponse(args);
   document.getElementById("registerResult")!.innerText = String(isSucess);
 });
 
