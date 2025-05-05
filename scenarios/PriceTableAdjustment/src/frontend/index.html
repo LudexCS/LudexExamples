@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scenario: PriceTableAdjustment</title>
+</head>
+<body>
+  <h1>Scenario: PriceTableAdjustment</h1>
+  <div>
+    <label>Item ID</label>
+    <input type="text" id="itemID">
+    <button id="getPriceInfoList">Get Price Info</button>
+    <pre id="priceInfoList"></pre>
+  </div>
+  <div>
+    <h2>Change Price</h2>
+    <label>New Price(USD)</label>
+    <input type="number" id="newPrice">
+    <button id="changePrice">Change Price</button>
+    <pre id="prevPrice"></pre>
+  </div>
+  <div>
+    <h2>Start Discount</h2>
+    <div>
+      <label>Discount by (USD)</label>
+      <input type="number" id="discountPrice">
+    </div>
+    <div>
+      <label>End Time</label>
+      <input type="number" id="endYear"> Y
+      <input type="number" id="endMonth"> M
+      <input type="number" id="endDay"> D
+      <input type="number" id="endHour"> H
+      <input type="number" id="endMin"> m
+    </div>
+    <button id="startDiscount">Start</button>
+  </div>
+
+  <script src="js/frontend.js"></script>
+</body>
+</html>
