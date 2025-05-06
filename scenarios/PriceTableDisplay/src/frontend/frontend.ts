@@ -44,9 +44,6 @@ document.getElementById("show")?.addEventListener("click", async () => {
   const chainConfig = createChainConfig();
   const ludexConfig = createLudexConfig(contracts);
 
-  const connection = 
-    await ludex.BrowserWalletConnection.create(chainConfig);
-
   const facade = 
     ludex.facade.createWeb2UserFacade(
       chainConfig, 
