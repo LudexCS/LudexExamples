@@ -17,7 +17,9 @@
     "start:PriceTableDisplay": "npm start --workspace=scenarios/PriceTableDisplay",
     "build:PriceTableDisplay": "npm run build --workspace=scenarios/PriceTableDisplay",
     "start:PriceTableAdjustment": "npm start --workspace=scenarios/PriceTableAdjustment",
-    "build:PriceTableAdjustment": "npm run build --workspace=scenarios/PriceTableAdjustment"
+    "build:PriceTableAdjustment": "npm run build --workspace=scenarios/PriceTableAdjustment",
+    "start:StorePurchase": "npm start --workspace=scenarios/StorePurchase",
+    "build:StorePurchase": "npm run build --workspace=scenarios/StorePurchase"
   },
   "repository": {
     "type": "git",
