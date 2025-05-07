@@ -19,7 +19,9 @@
     "start:PriceTableAdjustment": "npm start --workspace=scenarios/PriceTableAdjustment",
     "build:PriceTableAdjustment": "npm run build --workspace=scenarios/PriceTableAdjustment",
     "start:StorePurchase": "npm start --workspace=scenarios/StorePurchase",
-    "build:StorePurchase": "npm run build --workspace=scenarios/StorePurchase"
+    "build:StorePurchase": "npm run build --workspace=scenarios/StorePurchase",
+    "start:SellerProfitClaim": "npm start --workspace=scenarios/SellerProfitClaim",
+    "build:SellerProfitClaim": "npm run build --workspace=scenarios/SellerProfitClaim"
   },
   "repository": {
     "type": "git",
