@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import path from "path";
+import cors from "cors";
 
 import * as ludex from "ludex";
 import { ethers } from "ethers";
@@ -37,6 +38,9 @@ dotenv.config();
 
 const app = express();
 const port = 4000;
+
+app.use(cors());
+
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));

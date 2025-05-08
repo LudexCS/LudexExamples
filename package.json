@@ -41,6 +41,8 @@
     "scenarios/*"
   ],
   "dependencies": {
+    "@types/cors": "^2.8.17",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "ethers": "^6.13.7",
     "express": "^5.1.0"
