@@ -21,7 +21,9 @@
     "start:StorePurchase": "npm start --workspace=scenarios/StorePurchase",
     "build:StorePurchase": "npm run build --workspace=scenarios/StorePurchase",
     "start:SellerProfitClaim": "npm start --workspace=scenarios/SellerProfitClaim",
-    "build:SellerProfitClaim": "npm run build --workspace=scenarios/SellerProfitClaim"
+    "build:SellerProfitClaim": "npm run build --workspace=scenarios/SellerProfitClaim",
+    "start:OwnershipVerification": "npm start --workspace=scenarios/OwnershipVerification",
+    "build:OwnershipVerification": "npm run build --workspace=scenarios/OwnershipVerification"
   },
   "repository": {
     "type": "git",
