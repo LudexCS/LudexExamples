@@ -38,7 +38,8 @@
   "homepage": "https://github.com/LudexCS/LudexExamples#readme",
   "workspaces": [
     "packages/*",
-    "scenarios/*"
+    "scenarios/*",
+    "overview/*"
   ],
   "dependencies": {
     "@types/cors": "^2.8.17",

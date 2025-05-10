@@ -1,0 +1,23 @@
+{
+  "name": "overview",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:backend": "tsc",
+    "build:frontend": "node esbuild.config.js",
+    "build:copy-html": "cpx \"src/**/*.html\" dist",
+    "build:copy-service-configs": "cpx \"service-configs/**/*\" dist/service-configs",
+    "build:copy-deployments": "cpx \"deployments/**/*\" dist/deployments",
+    "build:overview": "npm run build:backend && npm run build:frontend && npm run build:copy-html && npm run build:copy-service-configs && npm run build:copy-deployments",
+    "start:overview": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "fnv1a": "^1.1.1",
+    "ludex": "file:../packages/LudexWeb3Integration"
+  }
+}

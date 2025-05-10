@@ -1,0 +1,12 @@
+{
+    "chainConfig": {
+        "chainId": "0xAA37DC",
+        "chainName": "Optimism Sepolia",
+        "rpcUrls": ["https://sepolia.optimism.io/"],
+        "nativeCurrency": {
+            "name": "ETH",
+            "symbol": "ETH",
+            "decimals": 18
+        }
+    }
+}
