@@ -36,7 +36,8 @@ function createLudexConfig(contracts: Contracts): ludex.configs.LudexConfig
     ledgerAddress: contracts["Ledger"].address,
     priceTableAddress: contracts["PriceTable"].address,
     sellerRegistryAddress: contracts["SellerRegistry"].address,
-    itemRegistryAddress: contracts["ItemRegistry"].address
+    itemRegistryAddress: contracts["ItemRegistry"].address,
+    forwarderAddress: contracts["ERC2771Forwarder"].address
   };
 }
 
@@ -62,7 +63,6 @@ async function init()
   const relayer = 
     ludex.relay.createLudexRelayMaster(
       ludexConfig,
-      ludex.Address.create(contracts["ERC2771Forwarder"].address),
       wallet);
 
   app.post("/api/relay", async (req: Request, res: Response) => {

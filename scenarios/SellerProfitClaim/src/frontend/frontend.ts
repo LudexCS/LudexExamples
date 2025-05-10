@@ -14,18 +14,17 @@ const chainConfig: ludex.configs.ChainConfig = {
 
 let ludexConfig: ludex.configs.LudexConfig;
 let tokenAddress: string;
-let forwarderAddress: string;
 
 window.onload = async () => {
   const res = await fetch("http://localhost:3000/contracts");
   const contractsMap = await res.json();
   
   ludexConfig = { 
-    paymentProcessorAddress: contractsMap["PaymentProcessor"].address
+    paymentProcessorAddress: contractsMap["PaymentProcessor"].address,
+    forwarderAddress: contractsMap["ERC2771Forwarder"].address
   };
 
   tokenAddress = contractsMap["MockUSDC"].address;
-  forwarderAddress = contractsMap["ERC2771Forwarder"].address;
 };
 
 document.getElementById("showBalance")?.addEventListener("click", async () => {
@@ -39,8 +38,7 @@ document.getElementById("showBalance")?.addEventListener("click", async () => {
     .createWeb3UserFacade(
       chainConfig,
       ludexConfig,
-      signer,
-      ludex.Address.create(forwarderAddress))
+      signer)
     .metaTXAccessPaymentProcessor();
 
   document.getElementById("balance")!.innerText = 
@@ -59,8 +57,7 @@ document.getElementById("claim")?.addEventListener("click", async () => {
     .createWeb3UserFacade(
       chainConfig,
       ludexConfig,
-      signer,
-      ludex.Address.create(forwarderAddress))
+      signer)
     .metaTXAccessPaymentProcessor();
 
   const relayRequest = 

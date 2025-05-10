@@ -24,7 +24,8 @@ window.onload = async () => {
     priceTableAddress: contractsMap["PriceTable"].address,
     ledgerAddress: contractsMap["Ledger"].address,
     sellerRegistryAddress: contractsMap["SellerRegistry"].address,
-    itemRegistryAddress: contractsMap["ItemRegistry"].address
+    itemRegistryAddress: contractsMap["ItemRegistry"].address,
+    forwarderAddress: contractsMap["ERC2771Forwarder"].address
   };
 
   document.getElementById("token")!.innerText = contractsMap["MockUSDC"].address;
@@ -67,8 +68,7 @@ document.getElementById("buy")?.addEventListener("click", async () => {
     ludex.facade.createWeb3UserFacade(
       chainConfig, 
       ludexConfig, 
-      signer,
-      ludex.Address.create(contractsMap["ERC2771Forwarder"].address));
+      signer);
 
   const store = facade.metaTXAccessStore();
 

@@ -24,7 +24,8 @@ window.onload = async () => {
     priceTableAddress: contractsMap["PriceTable"].address,
     ledgerAddress: contractsMap["Ledger"].address,
     sellerRegistryAddress: contractsMap["SellerRegistry"].address,
-    itemRegistryAddress: contractsMap["ItemRegistry"].address
+    itemRegistryAddress: contractsMap["ItemRegistry"].address,
+    forwarderAddress: contractsMap["ERC2771Forwarder"].address
   };
 };
 
@@ -45,8 +46,7 @@ async function createPriceTable()
     ludex.facade.createWeb3UserFacade(
       chainConfig, 
       ludexConfig, 
-      signer, 
-      ludex.Address.create(contractsMap["ERC2771Forwarder"].address))
+      signer)
     .metaTXAccessPriceTable();
 
   return priceTable;
