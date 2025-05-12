@@ -15,7 +15,25 @@ function post(attachment: APIAttachment)
         const seller: ludex.Address = ludex.Address.create(data.seller);
         const sharers: bigint[] = 
             (data.sharers as string[]).map(entry => BigInt(entry))
-        const itemPrice: bigint = BigInt(data.itemPrice);
+        const itemPrice: bigint = (function () {
+            const parts = data.itemPrice.split('.');
+            if(parts.length === 1)
+            {
+                return BigInt(data.itemPrice) * (10n ** 18n);
+            }
+            else if (parts.length === 2)
+            {
+                const intPart = BigInt(parts[0]) * (10n ** 18n);
+                const decimalPartLength = parts[1].length;
+                const decimalPart = 
+                    BigInt(parts[1]) * (10n ** (18n - BigInt(decimalPartLength)));
+                return intPart + decimalPart;
+            }
+            else
+            {
+                throw new Error(`Invalid number format given: ${data.itemPrice}`);
+            }
+        })();
         const shareTerms: number[] = 
             (data.shareTerms as string[]).map(entry => Number(entry));
 
