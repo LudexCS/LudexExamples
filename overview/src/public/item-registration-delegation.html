@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scenario: ItemRegistrationDelegation</title>
+</head>
+<body>
+  <h1>Scenario: ItemRegistrationDelegation</h1>
+
+  <div>
+    <label>Seller ID</label>
+    <input type="number" id="sellerID">
+  </div>
+  <div>
+    <label>Item Name</label>
+    <input type="text" id="itemName">
+  </div>
+  <div>
+    <label>Price (USD)</label>
+    <input type="number" id="itemPrice">
+  </div>
+  <div>
+    <label>Influenced by</label><br>
+    <input type="text" id="sharers">
+  </div>
+  <div>
+    <label>Shares</label><br>
+    <input type="text" id="shareTerms">
+  </div>
+
+  <button id="register">Register</button>
+  <pre id="result"></pre>
+
+  <script src="./js/item-registration-delegation.js"></script>
+</body>

@@ -50,11 +50,26 @@ document.getElementById("prove")?.addEventListener("click", async () => {
     {
         const purchaseLog = await ledger.getPurchaseInfo(tokenIDNumber);
 
+        const buyer = (function () {
+            if (typeof(purchaseLog.buyer) === "bigint")
+            {
+                return (
+                    (purchaseLog.buyer as bigint)
+                    .toString());
+            } 
+            else 
+            {
+                return (
+                    (purchaseLog.buyer as ludex.Address)
+                    .stringValue);
+            }
+        })();
+
         document.getElementById("purchaseLog")!.innerText =
         JSON.stringify({
             tokenID: purchaseLog.tokenID.toString(16),
             itemID: purchaseLog.itemID.toString(),
-            buyer: purchaseLog.buyer.stringValue,
+            buyer: buyer,
             timestamp: purchaseLog.timestamp
         }, null, '\t');
     } 

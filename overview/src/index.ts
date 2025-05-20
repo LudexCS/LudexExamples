@@ -13,6 +13,11 @@ import { APIAttachment } from "./api/api-attachment";
 import { register } from "module";
 import { postAPIRegisterItem } from "./api/register-item";
 import { postConfigs } from "./api/configs";
+import { postAPIDelegateRegister } from "./api/delegate-register";
+import { postAPIDelegateClaimProfit } from "./api/delegate-claim-profit";
+import { postAPIClaimSellerRight } from "./api/claim-seller-right";
+import { postAPIDelegatePurchase } from "./api/delegate-purchase";
+import { postAPIClaimPurchaseIDs } from "./api/claim-purchase-ids";
 
 dotenv.config();
 
@@ -81,6 +86,8 @@ const ludexConfig: ludex.configs.LudexConfig = {
     paymentProcessorAddress: contracts.PaymentProcessor.address,
     ledgerAddress: contracts.Ledger.address,
     storeAddress: contracts.Store.address,
+    sellerProxyAddress: contracts.SellerProxy.address,
+    purchaseProxyAddress: contracts.PurchaseProxy.address,
     forwarderAddress: contracts.ERC2771Forwarder.address
 };
 
@@ -123,7 +130,12 @@ app.post("/api/giveaway", async (req: Request, res: Response) => {
 .attach(postAPIContracts(contracts))
 .attach(getAPIGiveaway(contracts))
 .attach(postAPIRelay())
-.attach(postAPIRegisterItem());
+.attach(postAPIRegisterItem())
+.attach(postAPIDelegateRegister())
+.attach(postAPIDelegateClaimProfit())
+.attach(postAPIClaimSellerRight())
+.attach(postAPIDelegatePurchase())
+.attach(postAPIClaimPurchaseIDs());
 
 app.get("/", (_, res) => res.sendFile(path.join(__dirname, "public/index.html")));
 
