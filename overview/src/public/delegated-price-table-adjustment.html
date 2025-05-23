@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scenario: DelegatedPriceTableAdjustment</title>
+</head>
+<body>
+  <h1>Scenario: DelegatedPriceTableAdjustment</h1>
+  <div>
+    <label>Seller ID</label>
+    <input type="number" id="sellerID">
+  </div>
+  <div>
+    <label>Item ID</label>
+    <input type="text" id="itemID">
+    <button id="getPriceInfoList">Get Price Info</button>
+    <pre id="priceInfoList"></pre>
+  </div>
+  <div>
+    <h2>Get Rev Share</h2>
+    <div>
+      <label>Sharer ID</label>
+      <input type="text" id="sharerID">
+    </div>
+    <div>
+      <label>Item ID</label>
+      <input type="text" id="sharedItemID">
+    </div>
+    <button id="getShare">Get Share</button>
+    <pre id="share"></pre>
+  </div>
+  <div>
+    <h2>Change Price</h2>
+    <label>New Price(USD)</label>
+    <input type="number" id="newPrice">
+    <button id="changePrice">Change Price</button>
+    <pre id="prevPrice"></pre>
+  </div>
+  <div>
+    <h2>Change Share</h2>
+    <label>New Share (permyriad scale)</label>
+    <input type="number", id="newShare">
+    <button id="changeShare">Change Share</button>
+    <pre id="prevShare"></pre>
+  </div>
+  <div>
+    <h2>Start Discount</h2>
+    <div>
+      <label>Discount by (USD)</label>
+      <input type="number" id="discountPrice">
+    </div>
+    <div>
+      <label>End Time</label>
+      <input type="number" id="endYear"> Y
+      <input type="number" id="endMonth"> M
+      <input type="number" id="endDay"> D
+      <input type="number" id="endHour"> H
+      <input type="number" id="endMin"> m
+    </div>
+    <button id="startDiscount">Start</button>
+  </div>
+  <div>
+    <h2>Start Share Reduction</h2>
+    <div>
+      <label>Reduce by (USD)</label>
+      <input type="number" id="reducedShare">
+    </div>
+    <div>
+      <label>End Time</label>
+      <input type="number" id="reductionEndYear"> Y
+      <input type="number" id="reductionEndMonth"> M
+      <input type="number" id="reductionEndDay"> D
+      <input type="number" id="reductionEndHour"> H
+      <input type="number" id="reductionEndMinute"> m
+    </div>
+    <button id="startReduction">Start</button>
+  </div>
+
+  <script src="./js/delegated-price-table-adjustment.js"></script>
+</body>
+</html>

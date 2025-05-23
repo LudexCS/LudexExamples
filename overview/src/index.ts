@@ -18,6 +18,10 @@ import { postAPIDelegateClaimProfit } from "./api/delegate-claim-profit";
 import { postAPIClaimSellerRight } from "./api/claim-seller-right";
 import { postAPIDelegatePurchase } from "./api/delegate-purchase";
 import { postAPIClaimPurchaseIDs } from "./api/claim-purchase-ids";
+import { postAPIDelegateChangePrice } from "./api/delegate-change-price";
+import { postAPIDelegateStartDiscount } from "./api/delegate-start-discount";
+import { postAPIDelegateChangeShare } from "./api/delegate-change-share";
+import { postAPIDelegateStartReduction } from "./api/delegate-start-reduction";
 
 dotenv.config();
 
@@ -134,7 +138,11 @@ app.post("/api/giveaway", async (req: Request, res: Response) => {
 .attach(postAPIDelegateClaimProfit())
 .attach(postAPIClaimSellerRight())
 .attach(postAPIDelegatePurchase())
-.attach(postAPIClaimPurchaseIDs());
+.attach(postAPIClaimPurchaseIDs())
+.attach(postAPIDelegateChangePrice())
+.attach(postAPIDelegateStartDiscount())
+.attach(postAPIDelegateChangeShare())
+.attach(postAPIDelegateStartReduction());
 
 app.get("/", (_, res) => res.sendFile(path.join(__dirname, "public/index.html")));
 
