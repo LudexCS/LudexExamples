@@ -17,16 +17,8 @@ export function postAPIContracts (contracts: any)
     );
 };}
 
-export function getAPIGiveaway (contracts: any) 
+export function getAPIGiveaway (usdcAddress: string) 
 {return function (attachment: APIAttachment) {
-    if (!contracts.MockUSDC)
-    {
-        console.log(
-            "The deployment doesn't include MockUSDC, not adding giveaway api");
-    }
-
-    const usdcAddress = contracts.MockUSDC.address;
-
     attachment.app.get("/api/giveaway", async (req: Request, res: Response) => {
         // You might wanna add some validation steps here, to avoid abusing
         const { to } = JSON.parse(req.body);

@@ -61,12 +61,13 @@ const wallet =
         process.env.MNEMONIC!,
         new ethers.JsonRpcProvider(process.env[rpcURL]));
 
-const chainConfigPublic: ludex.configs.ChainConfig = 
+const serviceConfig = 
     JSON.parse(
         fs.readFileSync(
             path.join(__dirname, `./service-configs/service.${network}.config.json`),
-            "utf8"))
-    .chainConfig;
+            "utf8"));
+
+const chainConfigPublic: ludex.configs.ChainConfig = serviceConfig.chainConfig;
 
 console.log(
     "Chain Config(public): \n" + JSON.stringify(chainConfigPublic, null, '\t'));
@@ -91,6 +92,10 @@ const ludexConfig: ludex.configs.LudexConfig = {
     forwarderAddress: contracts.ERC2771Forwarder.address
 };
 
+const mainTokenAddress = (function () {
+    return serviceConfig.mainTokenAddress ?? contracts.MockUSDC.address;
+})();
+
 console.log(
     "Ludex Config: \n" + JSON.stringify(ludexConfig, null, '\t'));
 
@@ -100,20 +105,14 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/api/mock-usdc-address", async (_: Request, res: Response) => {
-    if (!contracts.MockUSDC)
-    {
-        res.status(404).send("No MockUSDC contract deployed");
-        return;
-    }
-
-    res.json({usdcAddress: contracts.MockUSDC.address});
+    res.json({usdcAddress: mainTokenAddress});
 });
 
 app.post("/api/giveaway", async (req: Request, res: Response) => {
     const { userAddress } = req.body;
 
     await ludex.giveawayUSDC(
-        ludex.Address.create(contracts.MockUSDC.address), 
+        ludex.Address.create(mainTokenAddress), 
         ludex.Address.create(userAddress), 
         wallet);
 
@@ -128,7 +127,7 @@ app.post("/api/giveaway", async (req: Request, res: Response) => {
     wallet))
 .attach(postConfigs())
 .attach(postAPIContracts(contracts))
-.attach(getAPIGiveaway(contracts))
+.attach(getAPIGiveaway(mainTokenAddress))
 .attach(postAPIRelay())
 .attach(postAPIRegisterItem())
 .attach(postAPIDelegateRegister())

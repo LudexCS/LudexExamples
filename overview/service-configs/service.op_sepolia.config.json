@@ -8,5 +8,6 @@
             "symbol": "ETH",
             "decimals": 18
         }
-    }
+    },
+    "mainTokenAddress": "0x30Db32C834bBada42AF142F183C89F68621b8742"
 }
