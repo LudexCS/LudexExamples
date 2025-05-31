@@ -46,6 +46,34 @@ document.getElementById("showBalance")?.addEventListener("click", async () => {
         .toString();
 });
 
+document.getElementById("showPendingProfit")?.addEventListener("click", async () => {
+    const [chainConfig, ludexConfig] = await chainAndLudexConfig();
+
+    const profitEscrow = 
+        ludex
+        .facade
+        .createWeb2UserFacade(chainConfig, ludexConfig)
+        .readonlyAccessProfitEscrow();
+
+    const itemID = (function () {
+        const idText = 
+            (document.getElementById("itemID") as HTMLInputElement)?.value;
+        if (!idText)
+        {
+            throw new Error("No input itemID given");
+        }
+        return BigInt(idText);
+    })();
+
+    const pendingProfit = await (
+        profitEscrow.getPendingProfit(
+            itemID,
+            ludex.Address.create(tokenAddress)));
+
+    document.getElementById("pendingProfit")!.innerText = 
+        pendingProfit.toString();
+})
+
 document.getElementById("claim")?.addEventListener("click", async () => {
     const [chainConfig, ludexConfig] = await chainAndLudexConfig();
     const connection = await ludex.BrowserWalletConnection.create(chainConfig);
